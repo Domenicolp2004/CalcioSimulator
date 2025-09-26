@@ -49,7 +49,6 @@ import java.util.*;
 	    }
 	}
 	
-	
 
 	public class LeagueSimulator {
 	    
@@ -70,7 +69,7 @@ import java.util.*;
 	        teams.add(new Team("Bologna", 1.40, 1.18));
 	        teams.add(new Team("Cagliari", 1.10, 1.49));
 	        teams.add(new Team("Como", 1.37, 1.10));
-	        teams.add(new Team("Cremonese", 1.15, 1.30));
+	        teams.add(new Team("Cremonese", 1.08, 1.30));
 	        teams.add(new Team("Fiorentina", 1.53, 1.19));
 	        teams.add(new Team("Genoa", 1.09, 1.15));
 	        teams.add(new Team("Hellas Verona", 0.92, 1.53));
@@ -88,6 +87,8 @@ import java.util.*;
 	        teams.add(new Team("Udinese", 1.09, 1.35));
 
 	        Random rand = new Random();
+	        
+	        
 	        
 	        List<Match> matches = new ArrayList<>();
 
@@ -109,7 +110,7 @@ import java.util.*;
 	                home.updateMatch(homeGoals, awayGoals);
 	                away.updateMatch(awayGoals, homeGoals);
 
-	                if((home.name=="Napoli")||(away.name=="Napoli")) {
+	                if(home.name.equalsIgnoreCase("Napoli") || away.name.equalsIgnoreCase("Napoli")) {
 	                matches.add(new Match(home.name, away.name, homeGoals, awayGoals));
 	                }
 	                
@@ -119,15 +120,14 @@ import java.util.*;
 
 	                int homeGoals2 = poisson(expectedHome2, rand);
 	                int awayGoals2 = poisson(expectedAway2, rand);
-	                
-	                
 
 	                away.updateMatch(homeGoals2, awayGoals2);
 	                home.updateMatch(awayGoals2, homeGoals2);
-	                if((home.name=="Napoli")||(away.name=="Napoli")) {
+	                if(home.name.equalsIgnoreCase("Napoli") || away.name.equalsIgnoreCase("Napoli")) {
 	                matches.add(new Match(away.name, home.name, homeGoals2, awayGoals2));
 	            }
 	           }
+	       
 	        }
 
 	        // 3. Classifica finale (ordinata per punti)
