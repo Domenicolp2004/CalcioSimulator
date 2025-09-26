@@ -3,6 +3,8 @@ package simulatore;
 import java.util.*;
 	class Team {
 	    String name;
+	    double avgGoalsFor;     // media gol fatti a partita
+	    double avgGoalsAgainst; 
 	    int points = 0;
 	    int goalsFor = 0;
 	    int goalsAgainst = 0;
@@ -11,6 +13,12 @@ import java.util.*;
 	        this.name = name;
 	    }
 
+	    Team(String name, double avgGoalsFor, double avgGoalsAgainst) {
+	        this.name = name;
+	        this.avgGoalsFor = avgGoalsFor;
+	        this.avgGoalsAgainst = avgGoalsAgainst;
+	    }
+	    
 	    void updateMatch(int scored, int conceded) {
 	        goalsFor += scored;
 	        goalsAgainst += conceded;
@@ -23,8 +31,22 @@ import java.util.*;
 	        return name + " | Punti: " + points + " | GF: " + goalsFor + " | GS: " + goalsAgainst;
 	    }
 	}
+	
+	
+	
 
 	public class LeagueSimulator {
+	    
+		public static int poisson(double lambda, Random rand) {
+	        double L = Math.exp(-lambda);
+	        int k = 0;
+	        double p = 1.0;
+	        do {
+	            k++;
+	            p *= rand.nextDouble();
+	        } while (p > L);
+	        return k - 1;
+	    }
 	    public static void main(String[] args) {
 	        // 1. Lista squadre (puoi caricarle anche da file in seguito)
 	        List<Team> teams = new ArrayList<>();
