@@ -48,28 +48,28 @@ import java.util.*;
 	        return k - 1;
 	    }
 	    public static void main(String[] args) {
-	        // 1. Lista squadre (puoi caricarle anche da file in seguito)
+	        // 1. Lista squadre (caricate prendendo spunto da dati FootyStats)
 	        List<Team> teams = new ArrayList<>();
-	        teams.add(new Team("Atalanta"));
-	        teams.add(new Team("Bologna"));
-	        teams.add(new Team("Cagliari"));
-	        teams.add(new Team("Como"));
-	        teams.add(new Team("Cremonese"));
-	        teams.add(new Team("Fiorentina"));
-	        teams.add(new Team("Genoa"));
-	        teams.add(new Team("Hellas Verona"));
-	        teams.add(new Team("Inter"));
-	        teams.add(new Team("Juventus"));
-	        teams.add(new Team("Lazio"));
-	        teams.add(new Team("Lecce"));
-	        teams.add(new Team("Milan"));
-	        teams.add(new Team("Napoli"));
-	        teams.add(new Team("Parma"));
-	        teams.add(new Team("Pisa"));
-	        teams.add(new Team("Roma"));
-	        teams.add(new Team("Sassuolo"));
-	        teams.add(new Team("Torino"));
-	        teams.add(new Team("Udinese"));
+	        teams.add(new Team("Atalanta", 1.55, 1.10 ));
+	        teams.add(new Team("Bologna", 1.40, 1.18));
+	        teams.add(new Team("Cagliari", 1.10, 1.49));
+	        teams.add(new Team("Como", 1.37, 1.10));
+	        teams.add(new Team("Cremonese", 1.15, 1.30));
+	        teams.add(new Team("Fiorentina", 1.53, 1.19));
+	        teams.add(new Team("Genoa", 1.09, 1.15));
+	        teams.add(new Team("Hellas Verona", 0.92, 1.53));
+	        teams.add(new Team("Inter", 2.01, 0.99));
+	        teams.add(new Team("Juventus", 1.53, 0.93));
+	        teams.add(new Team("Lazio", 1.49, 1.05));
+	        teams.add(new Team("Lecce", 0.81, 1.42));
+	        teams.add(new Team("Milan", 1.76 , 0.95 ));
+	        teams.add(new Team("Napoli", 1.67, 0.90 ));
+	        teams.add(new Team("Parma", 1.00, 1.56 ));
+	        teams.add(new Team("Pisa", 0.80 , 1.50 ));
+	        teams.add(new Team("Roma", 1.58, 1.04 ));
+	        teams.add(new Team("Sassuolo",1.24 ,1.72 ));
+	        teams.add(new Team("Torino" ,1.08 ,1.20));
+	        teams.add(new Team("Udinese", 1.09, 1.35));
 
 	        Random rand = new Random();
 
@@ -79,15 +79,24 @@ import java.util.*;
 	                Team home = teams.get(i);
 	                Team away = teams.get(j);
 
-	                // Simulazione andata
-	                int homeGoals = rand.nextInt(4); // 0-3 gol
-	                int awayGoals = rand.nextInt(4);
+
+	             // Partita di andata
+	                double expectedHome = (home.avgGoalsFor + away.avgGoalsAgainst) / 2.0;
+	                double expectedAway = (away.avgGoalsFor + home.avgGoalsAgainst) / 2.0;
+
+	                int homeGoals = poisson(expectedHome, rand);
+	                int awayGoals = poisson(expectedAway, rand);
+
 	                home.updateMatch(homeGoals, awayGoals);
 	                away.updateMatch(awayGoals, homeGoals);
 
-	                // Simulazione ritorno
-	                int homeGoals2 = rand.nextInt(4);
-	                int awayGoals2 = rand.nextInt(4);
+	                // Partita di ritorno
+	                double expectedHome2 = (away.avgGoalsFor + home.avgGoalsAgainst) / 2.0;
+	                double expectedAway2 = (home.avgGoalsFor + away.avgGoalsAgainst) / 2.0;
+
+	                int homeGoals2 = poisson(expectedHome2, rand);
+	                int awayGoals2 = poisson(expectedAway2, rand);
+
 	                away.updateMatch(homeGoals2, awayGoals2);
 	                home.updateMatch(awayGoals2, homeGoals2);
 	            }
