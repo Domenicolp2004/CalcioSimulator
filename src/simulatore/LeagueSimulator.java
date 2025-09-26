@@ -32,6 +32,22 @@ import java.util.*;
 	    }
 	}
 	
+	class Match {
+	    String home, away;
+	    int goalsHome, goalsAway;
+
+	    Match(String home, String away, int goalsHome, int goalsAway) {
+	        this.home = home;
+	        this.away = away;
+	        this.goalsHome = goalsHome;
+	        this.goalsAway = goalsAway;
+	    }
+
+	    @Override
+	    public String toString() {
+	        return home + " " + goalsHome + " - " + goalsAway + " " + away;
+	    }
+	}
 	
 	
 
@@ -63,7 +79,7 @@ import java.util.*;
 	        teams.add(new Team("Lazio", 1.49, 1.05));
 	        teams.add(new Team("Lecce", 0.81, 1.42));
 	        teams.add(new Team("Milan", 1.76 , 0.95 ));
-	        teams.add(new Team("Napoli", 1.67, 0.90 ));
+	        teams.add(new Team("Napoli", 1.68, 0.85 ));
 	        teams.add(new Team("Parma", 1.00, 1.56 ));
 	        teams.add(new Team("Pisa", 0.80 , 1.50 ));
 	        teams.add(new Team("Roma", 1.58, 1.04 ));
@@ -72,34 +88,46 @@ import java.util.*;
 	        teams.add(new Team("Udinese", 1.09, 1.35));
 
 	        Random rand = new Random();
+	        
+	        List<Match> matches = new ArrayList<>();
 
 	        // 2. Simulazione di tutte le partite (andata e ritorno)
 	        for (int i = 0; i < teams.size(); i++) {
 	            for (int j = i + 1; j < teams.size(); j++) {
 	                Team home = teams.get(i);
 	                Team away = teams.get(j);
-
-
+	                int p=1;
 	             // Partita di andata
 	                double expectedHome = (home.avgGoalsFor + away.avgGoalsAgainst) / 2.0;
 	                double expectedAway = (away.avgGoalsFor + home.avgGoalsAgainst) / 2.0;
-
+	                
+	                
+	                
 	                int homeGoals = poisson(expectedHome, rand);
 	                int awayGoals = poisson(expectedAway, rand);
 
 	                home.updateMatch(homeGoals, awayGoals);
 	                away.updateMatch(awayGoals, homeGoals);
 
+	                if((home.name=="Napoli")||(away.name=="Napoli")) {
+	                matches.add(new Match(home.name, away.name, homeGoals, awayGoals));
+	                }
+	                
 	                // Partita di ritorno
 	                double expectedHome2 = (away.avgGoalsFor + home.avgGoalsAgainst) / 2.0;
 	                double expectedAway2 = (home.avgGoalsFor + away.avgGoalsAgainst) / 2.0;
 
 	                int homeGoals2 = poisson(expectedHome2, rand);
 	                int awayGoals2 = poisson(expectedAway2, rand);
+	                
+	                
 
 	                away.updateMatch(homeGoals2, awayGoals2);
 	                home.updateMatch(awayGoals2, homeGoals2);
+	                if((home.name=="Napoli")||(away.name=="Napoli")) {
+	                matches.add(new Match(away.name, home.name, homeGoals2, awayGoals2));
 	            }
+	           }
 	        }
 
 	        // 3. Classifica finale (ordinata per punti)
@@ -108,6 +136,11 @@ import java.util.*;
 	        System.out.println("Classifica finale simulata:");
 	        for (Team t : teams) {
 	            System.out.println(t);
+	        }
+	        
+	        System.out.println("\nTutti i risultati:");
+	        for (Match m : matches) {
+	            System.out.println(m);
 	        }
 	    }
 	}
