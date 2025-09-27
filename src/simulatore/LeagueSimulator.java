@@ -1,55 +1,6 @@
 package simulatore;
 
 import java.util.*;
-	class Team {
-	    String name;
-	    double avgGoalsFor;     // media gol fatti a partita
-	    double avgGoalsAgainst; 
-	    int points = 0;
-	    int goalsFor = 0;
-	    int goalsAgainst = 0;
-
-	    Team(String name) {
-	        this.name = name;
-	    }
-
-	    Team(String name, double avgGoalsFor, double avgGoalsAgainst) {
-	        this.name = name;
-	        this.avgGoalsFor = avgGoalsFor;
-	        this.avgGoalsAgainst = avgGoalsAgainst;
-	    }
-	    
-	    void updateMatch(int scored, int conceded) {
-	        goalsFor += scored;
-	        goalsAgainst += conceded;
-	        if (scored > conceded) points += 3;
-	        else if (scored == conceded) points += 1;
-	    }
-
-	    @Override
-	    public String toString() {
-	        return name + " | Punti: " + points + " | GF: " + goalsFor + " | GS: " + goalsAgainst;
-	    }
-	}
-	
-	class Match {
-	    String home, away;
-	    int goalsHome, goalsAway;
-
-	    Match(String home, String away, int goalsHome, int goalsAway) {
-	        this.home = home;
-	        this.away = away;
-	        this.goalsHome = goalsHome;
-	        this.goalsAway = goalsAway;
-	    }
-
-	    @Override
-	    public String toString() {
-	        return home + " " + goalsHome + " - " + goalsAway + " " + away;
-	    }
-	}
-	
-
 	public class LeagueSimulator {
 	    
 		public static int poisson(double lambda, Random rand) {
