@@ -12,12 +12,13 @@ public class Team {
 	    int goalsFor = 0;
 	    int goalsAgainst = 0;
 	    List<Player> players = new ArrayList<>();
-
-	    Team(String name) {
+	    
+	    public Team(String name) {
 	        this.name = name;
 	    }
 
-	    Team(String name, double avgGoalsFor, double avgGoalsAgainst) {
+
+	   public Team(String name, double avgGoalsFor, double avgGoalsAgainst) {
 	        this.name = name;
 	        this.avgGoalsFor = avgGoalsFor;
 	        this.avgGoalsAgainst = avgGoalsAgainst;
@@ -27,25 +28,13 @@ public class Team {
 	        players.add(p);
 	    } 
 	    
-	    public void scoreGoal(Random rand) {
+	    public Player scoreGoal(Random rand) {
 	        if (!players.isEmpty()) {
 	            Player scorer = players.get(rand.nextInt(players.size()));
 	            scorer.score();
-	            System.out.println("⚽ Gol di " + scorer.name + " per " + name);
+	            return scorer;
 	        }
-	    }
-	   
-	    void updateMatch(int scored, int conceded) {
-	        goalsFor += scored;
-	        goalsAgainst += conceded;
-	        if (scored > conceded) points += 3;
-	        else if (scored == conceded) points += 1;
-	        Random rand = new Random();
-	        for (int i = 0; i < scored; i++) {
-	            int index = rand.nextInt(players.size());
-	            players.get(index).score();
-	        }
-	    
+	        return null;
 	    }
 
 

@@ -23,8 +23,25 @@ public class SingleMatchSimulator {
         int homeGoals = poisson(expectedHome, rand);
         int awayGoals = poisson(expectedAway, rand);
 
-        home.updateMatch(homeGoals, awayGoals);
-        away.updateMatch(awayGoals, homeGoals);
+        for (int i = 0; i < homeGoals; i++) {
+            Player scorer = home.scoreGoal(rand);
+            if (scorer != null)
+                System.out.println("⚽ Gol di " + scorer.name + " (" + home.name + ")");
+        }
+        for (int i = 0; i < awayGoals; i++) {
+            Player scorer = away.scoreGoal(rand);
+            if (scorer != null)
+                System.out.println("⚽ Gol di " + scorer.name + " (" + away.name + ")");
+        }
+        
+        home.goalsFor += homeGoals;
+        home.goalsAgainst += awayGoals;
+        away.goalsFor += awayGoals;
+        away.goalsAgainst += homeGoals;
+
+        if (homeGoals > awayGoals) home.points += 3;
+        else if (homeGoals == awayGoals) { home.points++; away.points++; }
+        else away.points += 3;
 
         return new Match(home.name, away.name, homeGoals, awayGoals);
     }
